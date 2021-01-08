@@ -16,7 +16,7 @@
         </button>
         <div class="text-small"><h4>Здесь цикл v-for:</h4>
           <input type="text" v-model="containerNewElement">
-          <button @click="addNewElement()">
+          <button @click.prevent="addNewElement()">
             Нажми, чтобы добавить элемент массива.
           </button>
           <div class="text-small" v-for="m in array" :key="m.id">
@@ -30,9 +30,21 @@
         <!--Хуки жизненного цикла-->
         <p>Хуки жизненного цикла</p>
         <button @click="seenHooksComponent = !seenHooksComponent">
-          Убираю компоненту/создаю компоненту
+          Скрываю компоненту/показываю компоненту
         </button>
         <lifeHooks v-if="seenHooksComponent"></lifeHooks>
+        <!--Вычисляемые свойства-->
+        <p>Вычисляемые свойства</p>
+        <div class="block">
+          <div><b>Сообщение: </b>"{{myMes}}"</div>
+          <div><b>То же сообщение, только перевернутое:</b> "{{reverseMes}}"</div>
+        </div>
+        <div class="block">
+          <input type="text" v-model="newName">
+          <button @click.prevent="addNewName()">Нажмите, чтобы дать новое имя!</button>
+          <div>{{firstName}} {{lastName}}</div>
+          <div>{{fullName}}</div>
+        </div>
       </div>
     </div>
   </div>
@@ -64,22 +76,47 @@ export default {
       { id: 2, item: 3 },
     ],
     seenHooksComponent: true,
+    myMes: 'Для меня это послужит шпаргалкой',
+    firstName: 'Иван',
+    lastName: 'Иванов',
+    newName: '',
   }),
+  computed: {
+    reverseMes() {
+      return this.myMes.split('').reverse().join('');
+    },
+    fullName: {
+      get() {
+        return (this.firstName, ' ', this.lastName);
+      },
+      set(newValue) {
+        const names = newValue.split(' ');
+        [this.firstName] = names; //  здесь деструкция массива. Было this.firstName = names[0]
+        this.lastName = names[names.length - 1];
+      },
+    },
+  },
   methods: {
     addNewElement() {
-      const i = this.containerNewElement;
-      this.array.push(i);
+      // const i = this.containerNewElement;
+      // this.array.push(i);
+      this.$set(this.array, this.array.length, {
+        item: (this.containerNewElement), // добавил работующий метод
+      });
+    },
+    addNewName() {
+      this.fullName = this.newName;
     },
   },
   /* Хуки жц */
-  beforeCreate: {},
-  created: {},
-  beforeMount: {},
-  mounted: {},
-  beforeUpdate: {},
-  updated: {},
-  beforeDestroy: {},
-  destroyed: {},
+  beforeCreate() {},
+  created() {},
+  beforeMount() {},
+  mounted() {},
+  beforeUpdate() {},
+  updated() {},
+  beforeDestroy() {},
+  destroyed() {},
   /* Хуки жц */
 };
 </script>
@@ -140,5 +177,6 @@ input {
   display: flex;
   flex-direction: column;
   align-items: center;
+  padding: 15px;
 }
 </style>
