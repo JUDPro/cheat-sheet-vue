@@ -45,6 +45,8 @@
           <div>{{firstName}} {{lastName}}</div>
           <div>{{fullName}}</div>
         </div>
+        <!--Методы-наблюдатели-->
+        <p>Методы-наблюдатели</p>
       </div>
     </div>
   </div>
