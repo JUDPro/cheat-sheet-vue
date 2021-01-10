@@ -72,6 +72,33 @@
         <div class="static" :class="[isActive ? activeClass : '', errorClass]">
           Массив с условием
         </div>
+        <div class="static" :class="[{ active: isActive }, errorClass]">
+          Пример с массивом и объектом
+        </div>
+        <div class="block">
+          С использованием компонентов
+          <cssComponent :class="classObject"></cssComponent>
+          <button @click="isActive = !isActive">
+            меняю стили
+          </button>
+        </div>
+        <!--Связывние inline-стилей-->
+        <p>Связывние inline-стилей</p>
+        <div class="block">Использование объектов:
+          <div :style="{ color: activeColor, fontSize: fontSize + 'px' }">Пример</div>
+          <!--Пример с объектом в data делает код чище-->
+          <div :style="styleObject">Пример с объектом в data</div>
+          <div :style="[baseStyles, overridingStyles]">Пример с массивом</div>
+        </div>
+        <div class="block">
+          При использовании в v-bind:style свойств CSS,<br/>
+          требующих указания вендорных префиксов,<br/>
+          Vue автоматически определит это и добавит<br/>
+          подходящие префиксы к применяемым стилям.
+        </div>
+        <div v-bind:style="{ display: ['-webkit-box', '-ms-flexbox', 'flex'] }">
+          Здесь флексы будут отображаться в браузерах, где они не поддерживаются
+        </div>
       </div>
     </div>
   </div>
@@ -80,12 +107,14 @@
 <script>
 import someComponent from './components/someComponent.vue';
 import lifeHooks from './components/testlifehooks.vue';
+import cssComponent from './components/testCssComponent.vue';
 
 export default {
   name: 'app',
   components: {
     someComponent,
     lifeHooks,
+    cssComponent,
   },
   data: () => ({
     someText: 'Наведи на этот текст курсором.',
@@ -116,6 +145,20 @@ export default {
     error: null,
     activeClass: 'active',
     errorClass: 'text-danger',
+    activeColor: 'red',
+    fontSize: 30,
+    styleObject: {
+      color: 'blue',
+      fontSize: '25px',
+    },
+    baseStyles: {
+      color: 'orange',
+      fontSize: '25px',
+    },
+    overridingStyles: {
+      color: 'red',
+      fontSize: '30px',
+    },
   }),
   computed: {
     reverseMes() {
