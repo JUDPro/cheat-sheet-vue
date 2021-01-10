@@ -99,6 +99,26 @@
         <div v-bind:style="{ display: ['-webkit-box', '-ms-flexbox', 'flex'] }">
           Здесь флексы будут отображаться в браузерах, где они не поддерживаются
         </div>
+        <!--условная отрисовка-->
+        <p>Условная отрисовка</p>
+        <div class="block">
+          <button @click="awesome = !awesome">Отрисовка разных элементов</button>
+          <div class="examp1" v-if="awesome">
+            <div>awesome: true</div>
+          </div>
+          <div class="examp2" v-else>
+            <div>awesome: false</div>
+          </div>
+        </div>
+        <div class="block">
+          Управление повторным использованием элементов при помощи key:
+          <div class="auth" v-if="loginType === 'username'">
+            Введите email: <input type="text" placeholder="Введите email" key="username-input">
+          </div>
+          <div class="auth" v-else>
+            Введите логин: <input type="text" placeholder="Введите логин" key="email-input">
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -117,6 +137,7 @@ export default {
     cssComponent,
   },
   data: () => ({
+    loginType: 'username',
     someText: 'Наведи на этот текст курсором.',
     someTitle: 'Некоторое сообщение',
     seen: true,
@@ -159,6 +180,7 @@ export default {
       color: 'red',
       fontSize: '30px',
     },
+    awesome: true,
   }),
   computed: {
     reverseMes() {
@@ -280,5 +302,31 @@ input {
 .text-danger {
   background-color: red;
   color: white;
+}
+
+.examp1 {
+  width: 100px;
+  height: 150px;
+  background-color: brown;
+  margin: 15px;
+  color: white;
+  display: flex;
+  align-items: center;
+  text-align: center;
+}
+
+.examp2 {
+  width: 150px;
+  height: 100px;
+  background-color: chocolate;
+  margin: 15px;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.auth {
+  margin: 15px;
 }
 </style>
