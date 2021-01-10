@@ -47,6 +47,31 @@
         </div>
         <!--Методы-наблюдатели-->
         <p>Методы-наблюдатели</p>
+        <s>что-то про наблюдателей</s>
+        <!--Работа с классами и стилями-->
+        <p>Связывание CSS-классов</p>
+        <div class="static" :class="classObject">
+          Некоторый текст для теста
+          <button @click="isActive = !isActive">
+            меняю стили
+          </button>
+          <button @click="error = 'fatal'">
+            вызываю ошибку
+          </button>
+        </div>
+        <!--
+          В примере с массивом, берется его последний элемент по дефолту,
+          соответственно и класс этого элемента
+        -->
+        <div class="static" :class="[ activeClass, errorClass ]">
+          Пример с массивом
+        </div>
+        <!--
+          Можно использовать тернарные условия
+        -->
+        <div class="static" :class="[isActive ? activeClass : '', errorClass]">
+          Массив с условием
+        </div>
       </div>
     </div>
   </div>
@@ -82,6 +107,15 @@ export default {
     firstName: 'Иван',
     lastName: 'Иванов',
     newName: '',
+    //  classObject: {
+    //  isActive: true,
+    //  hasError: false,
+    //  },
+    isActive: true,
+    hasError: false,
+    error: null,
+    activeClass: 'active',
+    errorClass: 'text-danger',
   }),
   computed: {
     reverseMes() {
@@ -96,6 +130,12 @@ export default {
         [this.firstName] = names; //  здесь деструкция массива. Было this.firstName = names[0]
         this.lastName = names[names.length - 1];
       },
+    },
+    classObject() {
+      return {
+        active: this.isActive && !this.error,
+        'text-danger': this.error === 'fatal',
+      };
     },
   },
   methods: {
@@ -180,5 +220,22 @@ input {
   flex-direction: column;
   align-items: center;
   padding: 15px;
+}
+
+.static {
+  color: darkblue;
+  background-color: burlywood;
+  padding: 15px;
+  margin: 5px;
+}
+
+.active {
+  background-color: black;
+  color: white;
+}
+
+.text-danger {
+  background-color: red;
+  color: white;
 }
 </style>
