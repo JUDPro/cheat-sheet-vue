@@ -155,13 +155,29 @@
           <div class="block">
             Методы внесения изменений в массив:
             <input type="text" v-model="testValueForArray">
+            <!--Добавляет в массив новый элемент-->
             <button @click="myArray.push({ elem: testValueForArray })">push</button>
-            <button>pop</button>
-            <button>shift</button>
-            <button>unshift</button>
-            <button>splice</button>
-            <button>sort</button>
-            <button>reverse</button>
+            <!--Удаляет последний элемент в массиве-->
+            <button @click="myArray.pop()">pop</button>
+            <!--Удаляет первый элемент в массиве-->
+            <button @click="myArray.shift()">shift</button>
+            <!--Добавляет новый элемент в начало массива-->
+            <button @click="myArray.unshift({ elem: testValueForArray })">unshift</button>
+            <input type="text" v-model="valueForTest">
+            <!--
+              Удаляет нужный элемент, 1 параметр - какой элемент нужен,
+              второй параметр - сколько удалить
+            -->
+            <button @click="myArray.splice( valueForTest, 1 )">splice</button>
+            <!--
+              А этот пример интересный, с помощью этого примера можно и
+              удалять элементы, и добавлять, и заменять!
+            -->
+            <button @click="myArray.splice( valueForTest, 1, { elem: testValueForArray })">
+              splice со вставкой
+            </button>
+            <button @click="myArray.sort()">sort</button>
+            <button @click="myArray.reverse()">reverse</button>
           </div>
           <div class="block">
             <ul>
@@ -189,6 +205,7 @@ export default {
     cssComponent,
   },
   data: () => ({
+    valueForTest: 0,
     testValueForArray: '',
     myArray: [
       { elem: 'first element' },
@@ -274,6 +291,12 @@ export default {
     },
   },
   methods: {
+    sortArray(a, b) {
+      if (a > b) return 1;
+      if (a === b) return 0;
+      if (a < b) return -1;
+      return null;
+    }, // до сих пор не понял, как должен работать sort() метод. Да и eslint все ломает
     addNewElement() {
       // const i = this.containerNewElement;
       // this.array.push(i);
