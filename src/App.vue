@@ -112,11 +112,63 @@
         </div>
         <div class="block">
           Управление повторным использованием элементов при помощи key:
-          <div class="auth" v-if="loginType === 'username'">
+          <div class="auth" v-if="loginType">
             Введите email: <input type="text" placeholder="Введите email" key="username-input">
           </div>
           <div class="auth" v-else>
             Введите логин: <input type="text" placeholder="Введите логин" key="email-input">
+          </div>
+          <button @click="loginType = !loginType">Поменять тип входа</button>
+        </div>
+        <!--Отрисовка списков-->
+        <p>Отрисовка списков</p>
+        <div class="block">
+          <ul>
+            <li v-for="item in items" :key="item.message">
+              {{ item.message }}
+            </li>
+          </ul>
+          <!--Ниже пример с индексом, думаю, поможет в будущем-->
+          <ul>
+            <li v-for="(item, index) in items" :key="item.message">
+              {{ index }} - {{ item.message }}
+            </li>
+          </ul>
+          <!--Можно итерировать объект-->
+          <div class="block">Здесь в v-for прогоняю объект: </div>
+          <u>
+            <li v-for="value in object" :key="value.id">
+              {{ value }}
+            </li>
+          </u>
+          <!--Можно итерировать объект со свойством-->
+          <div class="block">Здесь в v-for прогоняю объект со свойством: </div>
+          <u>
+            <li v-for="(index, value, name) in object" :key="value.id">
+              {{ index }}. {{ name }}: {{ value }}
+            </li>
+          </u>
+        </div>
+        <!--Отслеживание изменений в массиве-->
+        <p>Отслеживание изменений в массиве</p>
+        <div class="btnTest">
+          <div class="block">
+            Методы внесения изменений в массив:
+            <input type="text" v-model="testValueForArray">
+            <button @click="myArray.push({ elem: testValueForArray })">push</button>
+            <button>pop</button>
+            <button>shift</button>
+            <button>unshift</button>
+            <button>splice</button>
+            <button>sort</button>
+            <button>reverse</button>
+          </div>
+          <div class="block">
+            <ul>
+              <li v-for="(i, index) in myArray" :key="i.elem">
+                {{ index }}. {{ i.elem }}
+              </li>
+            </ul>
           </div>
         </div>
       </div>
@@ -137,6 +189,24 @@ export default {
     cssComponent,
   },
   data: () => ({
+    testValueForArray: '',
+    myArray: [
+      { elem: 'first element' },
+    ],
+    object: {
+      one: 'Тест',
+      two: 'Test',
+      param: 3,
+    },
+    items: [
+      { message: 'one' },
+      { message: 'two' },
+      { message: 'foo' },
+      { message: 'bar' },
+      { message: 'baz' },
+      { message: 'test' },
+      { message: 'зачем я это писал?._.' },
+    ],
     loginType: 'username',
     someText: 'Наведи на этот текст курсором.',
     someTitle: 'Некоторое сообщение',
@@ -328,5 +398,10 @@ input {
 
 .auth {
   margin: 15px;
+}
+
+.btnTest{
+  display: flex;
+  padding: 15px;
 }
 </style>
