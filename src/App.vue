@@ -220,6 +220,14 @@
               </li>
             </ul>
         </div>
+        <div class="block">
+          Фильтрация и отображение массива с вычисляемым свойством:
+          <li v-for="n in evenString" :key="n.id">{{ n }}</li>
+          когда вычисляемые свойства невозможно использовать:
+          <!--ul v-for="set in sets" :key="set.id">
+            <li v-for="n in even(set)" :key="n.id">{{ n }}</li>
+          </ul-->
+        </div>
       </div>
     </div>
   </div>
@@ -238,6 +246,7 @@ export default {
     cssComponent,
   },
   data: () => ({
+    sets: [[1, 2, 3, 4, 5], [6, 7, 8, 9, 10]],
     numberArray: [1, 2, 3, 4, 5, 6, 7, 8, 9],
     someArray: [],
     valueForTest: 0,
@@ -327,6 +336,22 @@ export default {
         active: this.isActive && !this.error,
         'text-danger': this.error === 'fatal',
       };
+    },
+    evenString() {
+      return this.numberArray.filter(
+        // eslint-disable-next-line
+        function (number) {
+          return number % 2 && number < 9;
+        },
+      );
+    },
+    even(numbers) {
+      return numbers.filter(
+      // eslint-disable-next-line
+        function (number) {
+          return number % 2 === 0;
+        },
+      );
     },
   },
   methods: {
