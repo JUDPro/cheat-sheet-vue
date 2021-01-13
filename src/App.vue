@@ -153,7 +153,7 @@
         <p>Отслеживание изменений в массиве</p>
         <div class="btnTest">
           <div class="block">
-            Методы внесения изменений в массив:
+            #Методы внесения изменений в массив:
             <input type="text" v-model="testValueForArray">
             <!--Добавляет в массив новый элемент-->
             <button @click="myArray.push({ elem: testValueForArray })">push</button>
@@ -187,6 +187,39 @@
             </ul>
           </div>
         </div>
+        <div class="block">
+            #Замены в массиве:
+            <!--
+              С помощью метода slice() можно возвращать новый массив,
+              используя данные существующего.
+              Если в аргументах указать цифру, то вернется массив начиная
+              с той цифры, которую я указал (то есть со второго элемента,
+              в данном примере).
+              Если указать два аргумента (укащать две цифры),
+              то вернется массив с N элемента по M элемент.
+            -->
+            <button @click="someArray = myArray.slice(2)">slice</button>
+            <!--
+              Метод concat возвращает массив, объединенный из двух.
+              см пример.
+              p.s. Данный пример не очень хороший, тк вызывает ошибку <(Т_Т)>
+              Duplicate keys detected
+            -->
+            <button @click="someArray = myArray.concat(someArray)">concat</button>
+            <!--
+              Из названия понятно для чего этот метод. На вход кушоет функцию.
+              Нужно вернуться потом к этому методу ((((((((((((
+            -->
+            <button
+              @click="someArray = numberArray.filter(testFilterFun(3, 6))">
+              filter
+            </button>
+            <ul>
+              <li v-for="item in someArray" :key="item.elem">
+                {{item.elem}}
+              </li>
+            </ul>
+        </div>
       </div>
     </div>
   </div>
@@ -205,10 +238,16 @@ export default {
     cssComponent,
   },
   data: () => ({
+    numberArray: [1, 2, 3, 4, 5, 6, 7, 8, 9],
+    someArray: [],
     valueForTest: 0,
     testValueForArray: '',
     myArray: [
       { elem: 'first element' },
+      { elem: 'second element' },
+      { elem: 'threeth element' },
+      { elem: 'fourth element' },
+      { elem: 'fifth element' },
     ],
     object: {
       one: 'Тест',
@@ -306,6 +345,12 @@ export default {
     },
     addNewName() {
       this.fullName = this.newName;
+    },
+    testFilterFun(a, b) {
+      // eslint-disable-next-line
+      return function (x) {
+        return x >= a && x <= b;
+      };
     },
   },
   /* Хуки жц */
