@@ -227,6 +227,19 @@
           <!--ul v-for="set in sets" :key="set.id">
             <li v-for="n in even(set)" :key="n.id">{{ n }}</li>
           </ul-->
+          <div>а вот фиг знает, пример из доки вью не робит</div>
+        </div>
+        <div class="block">
+          #v-for диапазоны:
+          <!--В v-for можно передать целое число-->
+          <div>
+            <span v-for="n in 10" :key="n.id">{{ n }}</span>
+          </div>
+        </div>
+        <p>Обработка событий</p>
+        <div class="block">
+          <button @click="counter += 1">+1</button>
+          <div>{{ counter }}</div>
         </div>
       </div>
     </div>
@@ -246,6 +259,7 @@ export default {
     cssComponent,
   },
   data: () => ({
+    counter: 0,
     sets: [[1, 2, 3, 4, 5], [6, 7, 8, 9, 10]],
     numberArray: [1, 2, 3, 4, 5, 6, 7, 8, 9],
     someArray: [],
